@@ -1,0 +1,136 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.conf import settings
+from .forms import RegisterForm
+from .models import QueueEntry
+from django.utils import timezone
+
+
+def index(request):
+    # главная: отображение очереди
+    playing = QueueEntry.objects.filter(status='playing')
+    waiting = QueueEntry.objects.filter(status='waiting')
+    context = {'playing': playing, 'waiting': waiting}
+    return render(request, 'queueapp/index.html', context)
+
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Регистрация успешна')
+            return redirect('index')
+    else:
+        form = RegisterForm()
+    return render(request, 'queueapp/register.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.error(request, 'Неправильные данные')
+    return render(request, 'queueapp/login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')
+
+
+@login_required
+def join_queue(request):
+    # если пользователь уже в очереди и ожидает — не добавляем
+    exists = QueueEntry.objects.filter(user=request.user, status='waiting').exists()
+    if exists:
+        messages.info(request, 'Вы уже в очереди')
+        return redirect('index')
+    entry = QueueEntry.objects.create(user=request.user)
+    messages.success(request, f'Вы добавлены в очередь. Примерное время: {entry.estimate_start().strftime("%H:%M")}')
+    return redirect('index')
+
+
+@login_required
+def leave_queue(request):
+    entry = QueueEntry.objects.filter(user=request.user, status='waiting').first()
+    if entry:
+        entry.delete()
+        messages.success(request, 'Вы вышли из очереди')
+    else:
+        messages.info(request, 'Вы не в очереди')
+    return redirect('index')
+
+# --- организаторские простые view для перевода в playing/done/skip можно делать через админку
+
+
+---
+
+### queueapp/urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('register/', views.register_view, name='register'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('join/', views.join_queue, name='join'),
+    path('leave/', views.leave_queue, name='leave'),
+]
+
+---
+
+### equeue_project/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('queueapp.urls')),
+]
+
+---
+
+### queueapp/templates/queueapp/base.html
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Электронная очередь</title>
+</head>
+<body>
+  <header>
+    <h1>Электронная очередь</h1>
+    {% if user.is_authenticated %}
+      Привет, {{ user.username }} | <a href="{% url 'logout' %}">Выйти</a>
+    {% else %}
+      <a href="{% url 'login' %}">Войти</a> | <a href="{% url 'register' %}">Регистрация</a>
+    {% endif %}
+    <hr>
+  </header>
+  <main>
+    {% if messages %}
+      <ul>
+        {% for m in messages %}<li>{{ m }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
+
+---
+
+### queueapp/templates/queueapp/index.html
