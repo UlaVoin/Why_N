@@ -3,18 +3,16 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 10000;
-
-// Добавь это для диагностики
-console.log('🚀 Starting server with config:', {
-    port: PORT,
-    node_env: process.env.NODE_ENV,
-    current_dir: __dirname
-});
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// --- SQLite ---
+const db = new sqlite3.Database(path.join(__dirname, 'database.db'), err => {
+    if (err) console.error('DB open error', err);
+    else console.log('✅ SQLite DB opened');
+});
 
 // --- Init schema ---
 db.serialize(() => {
@@ -237,17 +235,4 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.ht
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
 
 // start
-// ОБЯЗАТЕЛЬНО слушай на 0.0.0.0
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`✅ Server successfully started on port ${PORT}`);
-    console.log(`🌐 Access via: https://your-url.onrender.com`);
-});
-
-// Обработка ошибок
-process.on('uncaughtException', (error) => {
-    console.error('❌ Uncaught Exception:', error);
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
-});
+app.listen(PORT, () => console.log(`🚀 Server listening http://localhost:${PORT}`));
