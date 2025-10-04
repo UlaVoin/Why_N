@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>T-Банк — Очереди</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <header class="header">
+  <img src="logo.svg" alt="T-Банк" class="logo">
+</header>
+
+
+<main class="container">
+  <section class="hero card hero--rounded">
+    <div class="hero-left">
+      <h1>Интерактивные<br/>точки</h1>
+      <p class="muted">Займите очередь на <strong>активных точках</strong> площадки</p>
+    </div>
+    <div class="hero-illustration" aria-hidden="true">
+      <div class="dots"></div>
+    </div>
+  </section>
+
+  <section class="my-tickets">
+    <h2>Мои очереди</h2>
+    <div id="myQueues" class="stack"></div>
+    <div id="emptyMyQueues" class="muted empty">Вы пока ни в одной очереди</div>
+  </section>
+
+  <section class="points-list">
+    <h2>Точки площадки</h2>
+    <div id="points" class="stack"></div>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>

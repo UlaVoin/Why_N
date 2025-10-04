@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Админ — Очереди</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand"><span class="shield">T</span><span class="brand-text">БАНК</span></div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button id="back" class="btn ghost">Назад</button>
+      <button id="saveSettings" class="btn primary">Сохранить</button>
+    </div>
+  </div>
+</header>
+<main class="container">
+  <h1>Админ-панель</h1>
+  <section class="card">
+    <h3>Глобальные настройки</h3>
+    <div style="display:flex;gap:12px;align-items:center;">
+      <div>Лимит активных талонов:</div>
+      <input id="activeLimit" type="number" min="0" style="width:100px;padding:6px;border-radius:8px;border:1px solid var(--card-border)">
+      <div class="muted">(0 — без ограничений)</div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:12px;align-items:center;">
+      <div>SLA цель (мин):</div>
+      <input id="slaTarget" type="number" min="1" style="width:100px;padding:6px;border-radius:8px;border:1px solid var(--card-border)">
+    </div>
+  </section>
+
+  <section style="margin-top:14px;">
+    <h2>Точки</h2>
+    <div id="pointsTable" class="stack"></div>
+  </section>
+</main>
+
+<script src="/admin.js" type="module"></script>
+</body>
+</html>
