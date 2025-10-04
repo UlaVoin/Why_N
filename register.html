@@ -7,11 +7,19 @@
     <link rel="stylesheet" href="style_reg.css">
 </head>
 <body>
-    <h1>Регистрация пользователя</h1>
+    <h1>Регистрация</h1>
     <form action="process.php" method="POST">
         <label for="username">Имя пользователя:</label>
         <input type="text" id="username" name="username" required placeholder="Введите имя пользователя">
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required placeholder="Введите пароль">
+
         <button type="submit">Зарегистрироваться</button>
     </form>
+
+    <p style="text-align:center;">
+        Уже есть аккаунт? <a href="login.html">Войти</a>
+    </p>
 </body>
 </html>
