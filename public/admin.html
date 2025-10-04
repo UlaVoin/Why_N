@@ -1,42 +1,51 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Админ — Очереди</title>
-<link rel="stylesheet" href="/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Админ — T‑Bank (Dark)</title>
+  <link rel="stylesheet" href="/admin.css" />
 </head>
-<body>
-<header class="topbar">
-  <div class="container topbar-inner">
-    <div class="brand"><span class="shield">T</span><span class="brand-text">БАНК</span></div>
-    <div style="display:flex;gap:10px;align-items:center">
-      <button id="back" class="btn ghost">Назад</button>
-      <button id="saveSettings" class="btn primary">Сохранить</button>
+<body class="admin-body">
+  <header class="admin-header">
+    <div class="left">
+      <img src="/images/T-Bank_logo_rus_left_white shield_black text_yellow bg.svg" alt="logo" class="admin-logo">
+      <h1>Админ-панель</h1>
     </div>
-  </div>
-</header>
-<main class="container">
-  <h1>Админ-панель</h1>
-  <section class="card">
-    <h3>Глобальные настройки</h3>
-    <div style="display:flex;gap:12px;align-items:center;">
-      <div>Лимит активных талонов:</div>
-      <input id="activeLimit" type="number" min="0" style="width:100px;padding:6px;border-radius:8px;border:1px solid var(--card-border)">
-      <div class="muted">(0 — без ограничений)</div>
+    <div class="right">
+      <button id="btnAdd" class="btn btn-accent">➕ Добавить точку</button>
     </div>
-    <div style="margin-top:10px;display:flex;gap:12px;align-items:center;">
-      <div>SLA цель (мин):</div>
-      <input id="slaTarget" type="number" min="1" style="width:100px;padding:6px;border-radius:8px;border:1px solid var(--card-border)">
-    </div>
-  </section>
+  </header>
 
-  <section style="margin-top:14px;">
-    <h2>Точки</h2>
-    <div id="pointsTable" class="stack"></div>
-  </section>
-</main>
+  <main class="admin-main">
+    <div id="cards" class="cards-grid" aria-live="polite"></div>
+  </main>
 
-<script src="/admin.js" type="module"></script>
+  <!-- Edit Modal -->
+  <div id="modal-root"></div>
+
+  <template id="card-template">
+    <article class="card">
+      <div class="card-body">
+        <div class="card-top">
+          <div class="title-wrap">
+            <div class="name"></div>
+            <div class="sector muted"></div>
+          </div>
+          <div class="counts">
+            <div class="queued muted">—</div>
+            <div class="max muted">max: —</div>
+          </div>
+        </div>
+        <p class="desc muted small"></p>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-ghost btn-edit">✏️ Ред.</button>
+        <button class="btn btn-danger btn-delete">🗑 Удалить</button>
+      </div>
+    </article>
+  </template>
+
+  <script type="module" src="/admin.js"></script>
 </body>
 </html>

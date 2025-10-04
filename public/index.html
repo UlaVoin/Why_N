@@ -1,43 +1,52 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>T-Банк — Очереди</title>
-<link rel="stylesheet" href="/styles.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>T-Bank — Очередь</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
-
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('✅ Service Worker зарегистрирован:', reg.scope))
+                .catch(err => console.log('❌ Ошибка регистрации SW:', err));
+        });
+    }
+</script>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#FFD700">
 <body>
-    <header class="header">
-  <img src="logo.svg" alt="T-Банк" class="logo">
-</header>
+    <header class="site-header">
+        <div class="logo-wrap">
+            <img src="/images/T-Bank_logo_rus_left_white shield_black text_yellow bg.svg" alt="T-Bank" class="logo">
+        </div>
+    </header>
 
+    <main class="app">
 
-<main class="container">
-  <section class="hero card hero--rounded">
-    <div class="hero-left">
-      <h1>Интерактивные<br/>точки</h1>
-      <p class="muted">Займите очередь на <strong>активных точках</strong> площадки</p>
-    </div>
-    <div class="hero-illustration" aria-hidden="true">
-      <div class="dots"></div>
-    </div>
-  </section>
+        <!-- 🔹 Блок с МОИМИ талонами — теперь он ПЕРВЫЙ -->
+        <section class="my-section">
+            <h2>Мои талончики</h2>
+            <div id="myQueues" class="my-queues">
+                <div id="emptyMyQueues" class="muted">У вас пока нет активных талонов</div>
+            </div>
+        </section>
 
-  <section class="my-tickets">
-    <h2>Мои очереди</h2>
-    <div id="myQueues" class="stack"></div>
-    <div id="emptyMyQueues" class="muted empty">Вы пока ни в одной очереди</div>
-  </section>
+        <hr style="border: none; height: 1px; background: #333; opacity: 0.3; margin: 20px 0;">
 
-  <section class="points-list">
-    <h2>Точки площадки</h2>
-    <div id="points" class="stack"></div>
-  </section>
-</main>
+        <!-- 🔹 Доступные точки — теперь идут ниже -->
+        <section class="points-section">
+            <h2>Доступные точки</h2>
+            <div id="points" class="points-list" aria-live="polite"></div>
+        </section>
+    </main>
 
-<div id="toast" class="toast"></div>
+    <!-- Модалки и уведомления -->
+    <div id="modal-root"></div>
+    <div id="toast" class="toast"></div>
 
-<script src="/app.js" type="module"></script>
+    <script src="/app.js" type="module"></script>
 </body>
 </html>
