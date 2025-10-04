@@ -1,107 +1,107 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f9f9f9;
-  color: #222;
-}
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f9f9f9;
+        color: #222;
+        }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
-}
+        header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+        }
 
-header .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+        header .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        }
 
-header .logo span {
-  background: #FFD600;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-weight: bold;
-}
+        header .logo span {
+        background: #FFD600;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        }
 
-header .id {
-  background: #000;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-weight: bold;
-}
+        header .id {
+        background: #000;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        }
 
-.banner {
-  text-align: center;
-  padding: 20px;
-  background: #fff;
-}
+        .banner {
+        text-align: center;
+        padding: 20px;
+        background: #fff;
+        }
 
-.banner h1 {
-  font-size: 22px;
-  margin-bottom: 5px;
-}
+        .banner h1 {
+        font-size: 22px;
+        margin-bottom: 5px;
+        }
 
-.banner p {
-  color: #555;
-}
+        .banner p {
+        color: #555;
+        }
 
-.queues {
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+        .queues {
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        }
 
-.queue-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+        .queue-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
 
-.queue-info {
-  font-size: 16px;
-}
+        .queue-info {
+        font-size: 16px;
+        }
 
-.queue-info strong {
-  display: block;
-  font-size: 18px;
-  margin-bottom: 3px;
-}
+        .queue-info strong {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 3px;
+        }
 
-.queue-info span {
-  font-size: 14px;
-  color: #666;
-}
+        .queue-info span {
+        font-size: 14px;
+        color: #666;
+        }
 
-.queue-action {
-  text-align: right;
-}
+        .queue-action {
+        text-align: right;
+        }
 
-.queue-action button {
-  background: #FFD600;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-}
+        .queue-action button {
+        background: #FFD600;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        }
 
-.queue-action button:hover {
-  background: #ffcc00;
-}
+        .queue-action button:hover {
+        background: #ffcc00;
+        }
 
-.queue-action small {
-  display: block;
-  margin-top: 5px;
-  color: #444;
-  font-size: 13px;
-}
+        .queue-action small {
+        display: block;
+        margin-top: 5px;
+        color: #444;
+        font-size: 13px;
+        }
