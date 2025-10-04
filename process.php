@@ -1,47 +1,28 @@
 <?php
-session_start(); // Запускаем сессию для передачи сообщений
+session_start();
 
-// Подключение к БД (замени на свои данные)
-$servername = "localhost";
-$username_db = "root";  // Твой логин для MySQL
-$password_db = "";      // Твой пароль для MySQL
-$dbname = "users_db";
+$pdo = new PDO("mysql:host=localhost;dbname=users_db;charset=utf8", "root", "");
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-try {
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username_db, $password_db);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Ошибка подключения: " . $e->getMessage());
-}
-
-// Получаем данные из формы
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username']);
-    
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
     if (empty($username)) {
-        $_SESSION['error'] = "Имя пользователя не может быть пустым!";
-        header('Location: register.html');
-        exit();
+        die("Имя пользователя не может быть пустым!");
     }
-    
-    // Проверяем, существует ли уже такое имя
+
     $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
     $stmt->execute([$username]);
-    
+
     if ($stmt->rowCount() > 0) {
-        $_SESSION['error'] = "Пользователь с таким именем уже существует!";
-        header('Location: register.html');
-        exit();
+        die("Такой пользователь уже существует!");
     }
-    
-    // Вставляем в БД
-    $stmt = $pdo->prepare("INSERT INTO users (username) VALUES (?)");
-    $stmt->execute([$username]);
-    
-    $_SESSION['success'] = "Регистрация успешна! Пользователь '$username' добавлен.";
-    header('Location: index.html');
+
+    $stmt = $pdo->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+    $stmt->execute([$username, $password]);
+
+    header("Location: login.html");
     exit();
-} else {
-    die("Неверный метод запроса!");
 }
 ?>
