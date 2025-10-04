@@ -11,7 +11,10 @@
     <div class="logo">
       <span>Т БАНК</span>
     </div>
-    <div class="id">T ID</div>
+    <div class="id">
+      <span id="username"></span>
+      <a href="logout.php" style="margin-left:10px; color:red;">Выйти</a>
+    </div>
   </header>
 
   <div class="banner">
@@ -19,47 +22,10 @@
     <p>Займите очередь на <b>активных точках</b> площадки</p>
   </div>
 
-  <div class="queues">
-    <div class="queue-card">
-      <div class="queue-info">
-        <strong>Притяжение</strong>
-        <span>Очередь: 6</span>
-      </div>
-      <div class="queue-action">
-        <button onclick="leaveQueue(this)">Выйти</button>
-        <small>≈ 16 минут</small>
-      </div>
-    </div>
-
-    <div class="queue-card">
-      <div class="queue-info">
-        <strong>Т-Город</strong>
-        <span>Очередь: 9</span>
-      </div>
-      <div class="queue-action">
-        <button onclick="leaveQueue(this)">Выйти</button>
-        <small>≈ 26 минут</small>
-      </div>
-    </div>
-
-    <div class="queue-card">
-      <div class="queue-info">
-        <strong>Т-Образование</strong>
-        <span>Очередь: 3</span>
-      </div>
-      <div class="queue-action">
-        <button onclick="leaveQueue(this)">Выйти</button>
-        <small>≈ 7 минут</small>
-      </div>
-    </div>
+  <div class="queues" id="queues-container">
+    <!-- Очереди загружаются динамически -->
   </div>
 
-  <script>
-    function leaveQueue(btn) {
-      btn.innerText = "Покинул";
-      btn.disabled = true;
-      btn.style.background = "#ccc";
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
