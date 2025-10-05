@@ -99,3 +99,12 @@
     color: var(--accent);
     transition: color 0.2s ease;
 }
+/* Центрирование логотипа Т-Банка */
+.site-header {
+    text-align: center !important;
+}
+
+.logo-wrap {
+    display: inline-block !important;
+    margin: 0 auto !important;
+}
