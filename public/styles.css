@@ -95,7 +95,7 @@
     font-size: 16px;
     color: #000; /* можно убрать или настроить под дизайн */
 }
-    .point-card .title:hover {
-        color: var(--accent);
-        transition: color 0.2s ease;
-    }
+.point-card .title:hover {
+    color: var(--accent);
+    transition: color 0.2s ease;
+}
