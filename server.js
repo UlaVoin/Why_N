@@ -234,9 +234,6 @@ app.get('/api/stream', (req, res) => {
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
 
-// start
-app.listen(PORT, () => console.log(`🚀 Server listening http://localhost:${PORT}`));
-
 // ==================== АДМИН ОЧИСТКА БАЗЫ ====================
 
 // Очистка всех талонов
@@ -268,4 +265,5 @@ app.delete('/api/admin/reset-db', (req, res) => {
 // ==================== КОНЕЦ АДМИН ФУНКЦИЙ ====================
 
 // start
-app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server listening http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server listening http://localhost:${PORT}`));
+
