@@ -67,13 +67,22 @@ function renderMyTickets() {
     if (!myTickets.length) { if (empty) empty.classList.remove('hidden'); return; }
     if (empty) empty.classList.add('hidden');
     for (const t of myTickets) {
-        const card = document.createElement('div'); card.className = 'point-card my-ticket';
-        card.innerHTML = `<div class="card-left"><div class="title">${t.name}</div><div class="meta">Позиция: <b>${t.position || 0}</b></div></div>
-      <div class="card-right"><button class="btn gray" data-leave="${t.ticketId}">Выйти</button></div>`;
+        const card = document.createElement('div'); 
+        card.className = 'point-card my-ticket';
+        card.innerHTML = `
+  <div class="card-left">
+    <div class="title">${t.name}</div>
+    <div class="meta">Позиция: <b>${t.position || 0}</b></div>
+    <div class="meta eta">Примерное ожидание: <b>${t.etaMin}</b> мин.</div>
+  </div>
+  <div class="card-right">
+    <button class="btn gray" data-leave="${t.ticketId}">Выйти</button>
+  </div>`;
         el.appendChild(card);
     }
-    document.querySelectorAll('[data-leave]').forEach(b => b.addEventListener('click', () => leaveQueue(b.dataset.leave)));
+    document.querySelectorAll('[data-leave]').forEach(b => b.addEventListener('click', () => leaveQueue(Number(b.dataset.leave))));
 }
+
 
 function reflectJoinButtons() {
     document.querySelectorAll('[data-join]').forEach(btn => {
