@@ -236,3 +236,36 @@ app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'adm
 
 // start
 app.listen(PORT, () => console.log(`🚀 Server listening http://localhost:${PORT}`));
+
+// ==================== АДМИН ОЧИСТКА БАЗЫ ====================
+
+// Очистка всех талонов
+app.delete('/api/admin/clear-tickets', (req, res) => {
+    db.run(`DELETE FROM tickets`, function(err) {
+        if (err) return res.status(500).json({ error: 'DB error' });
+        res.json({ ok: true, deleted: this.changes });
+    });
+});
+
+// Сброс всей базы (очистка талонов и точек)
+app.delete('/api/admin/reset-db', (req, res) => {
+    db.serialize(() => {
+        db.run(`DELETE FROM tickets`);
+        db.run(`DELETE FROM points`);
+        // Пересоздаем стандартные точки
+        db.run(`
+            INSERT INTO points (name, sector, description, avg_service_sec, max_queue, active) VALUES
+            ('Притяжение','Сектор 1','Главная интерактивная зона',60,15,1),
+            ('Т-Город','Сектор 2','Зона городской активности',90,15,1),
+            ('Т-Образование','Сектор 3','Образовательные интерактивы',60,15,1),
+            ('Т-Лаунч','Сектор 4','Зона отдыха и общения',70,15,1),
+            ('Т-Бизнес','Сектор 5','Бизнес и нетворкинг',50,15,1)
+        `);
+    });
+    res.json({ ok: true, message: 'База сброшена до начального состояния' });
+});
+
+// ==================== КОНЕЦ АДМИН ФУНКЦИЙ ====================
+
+// start
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server listening http://localhost:${PORT}`));
