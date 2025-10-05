@@ -7,17 +7,17 @@
   <link rel="stylesheet" href="/admin.css" />
 
   <!-- PWA Meta Tags -->
-<meta name="theme-color" content="#007bff">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Очереди">
+  <meta name="theme-color" content="#007bff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Очереди">
 
-<!-- Icons -->
-<link rel="icon" href="/icon-192.png">
-<link rel="apple-touch-icon" href="/icon-192.png">
+  <!-- Icons -->
+  <link rel="icon" href="/icon-192.png">
+  <link rel="apple-touch-icon" href="/icon-192.png">
 
-<!-- Manifest -->
-<link rel="manifest" href="/manifest.json">
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json">
 </head>
 <body class="admin-body">
   <header class="admin-header">
@@ -29,6 +29,25 @@
       <button id="btnAdd" class="btn btn-accent">➕ Добавить точку</button>
     </div>
   </header>
+
+  <!-- КНОПКИ УПРАВЛЕНИЯ БАЗОЙ -->
+  <div style="margin: 20px; padding: 20px; background: #2d3748; border-radius: 10px; border: 2px solid #4a5568;">
+    <h3 style="margin-top: 0; color: #e2e8f0;">⚙️ Управление базой данных</h3>
+    
+    <button onclick="clearTickets()" 
+            style="padding: 12px 20px; margin: 5px; background: #e53e3e; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;">
+        🗑 Очистить все талоны
+    </button>
+    
+    <button onclick="resetDatabase()" 
+            style="padding: 12px 20px; margin: 5px; background: #d69e2e; color: black; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;">
+        🔄 Полный сброс базы
+    </button>
+    
+    <p style="margin: 10px 0 0 0; font-size: 14px; color: #a0aec0;">
+        ⚠️ Осторожно: действия нельзя отменить!
+    </p>
+  </div>
 
   <main class="admin-main">
     <div id="cards" class="cards-grid" aria-live="polite"></div>
@@ -58,6 +77,37 @@
       </div>
     </article>
   </template>
+
+  <script>
+// Функции для очистки базы
+function clearTickets() {
+    if (!confirm('❌ Удалить ВСЕ талоны? Это действие нельзя отменить!')) return;
+    
+    fetch('/api/admin/clear-tickets', { method: 'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+            alert(`✅ Очищено талонов: ${data.deleted}`);
+            location.reload();
+        })
+        .catch(err => {
+            alert('❌ Ошибка очистки: ' + err);
+        });
+}
+
+function resetDatabase() {
+    if (!confirm('⚠️ Полный сброс базы? Удалятся ВСЕ талоны и точки, затем создадутся стандартные точки!')) return;
+    
+    fetch('/api/admin/reset-db', { method: 'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+            alert('✅ База сброшена до начального состояния');
+            location.reload();
+        })
+        .catch(err => {
+            alert('❌ Ошибка сброса: ' + err);
+        });
+}
+  </script>
 
   <script type="module" src="/admin.js"></script>
 </body>
